@@ -11,3 +11,8 @@ lint:
 docker-image:
 	docker build -t pathfinding:latest .
 
+docker-run:
+	docker run --rm \
+		--mount type=bind,source=/tmp,target=/tmp \
+		pathfinding:latest
+
