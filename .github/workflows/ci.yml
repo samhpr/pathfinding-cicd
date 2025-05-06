@@ -1,0 +1,53 @@
+name: ci/cd for my astar program
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    name: build lint and test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: set up python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: get dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt -r requirements-dev.txt
+
+      - name: link with Flake8
+        run: make lint
+
+      - name: run tests
+        run: make test
+
+  package:
+    name: build and save docker image
+    needs: build-and-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: check out code
+        uses: actions/checkout@v4
+
+      - name: build docker image
+        run: make docker-image
+
+      - name: save docker image to archive
+        run: docker save pathfinding:latest -o pathfinding-image.tar
+
+      - name: upload docker image artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pathfinding-image
+          path: pathfinding-image.tar
