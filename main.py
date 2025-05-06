@@ -4,6 +4,7 @@
 import pygame
 from astar import algorithm
 from node import Node  # assume Node class moved to node.py for clarity
+from constants import BLACK, WHITE, RED, YELLOW, BLUE, PURPLE, GREEN
 
 # colors
 BLACK = (0, 0, 0)
