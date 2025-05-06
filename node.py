@@ -1,4 +1,4 @@
-import pygame
+# define node classs being used
 from constants import BLACK, WHITE, RED, YELLOW, BLUE, PURPLE, GREEN
 
 class Node:
@@ -9,7 +9,7 @@ class Node:
         self.y = col * width
         self.width = width
         self.total_rows = total_rows
-        self.color = WHITE  # default color
+        self.color = WHITE
         self.neighbors = []
 
     def get_pos(self):
@@ -52,12 +52,13 @@ class Node:
         self.color = GREEN
 
     def draw(self, win):
+        # import pygame only when drawing, to decouple tests from pygame dependency
+        import pygame
         pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.width))
 
     def update_neighbors(self, grid):
         self.neighbors = []
         rows = self.total_rows
-        # vertical and diagonal neighbors
         for dr in (-1, 0, 1):
             for dc in (-1, 0, 1):
                 if dr == 0 and dc == 0:
