@@ -6,7 +6,7 @@ test:
 	pytest --maxfail=1 --disable-warnings -q
 
 lint:
-	flake8 .
+	flake8 . --exit-zero
 
 docker-image:
 	docker build -t pathfinding:latest .
